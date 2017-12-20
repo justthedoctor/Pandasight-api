@@ -43,8 +43,8 @@ exports.index = function(req, res) {
   if (btceusdRate === 0 || currentTime >= (timestamp + delay)) {
     timestamp = currentTime;
 
-    _request('https://btc-e.com/api/2/ltc_usd/ticker/', function(err, data) {
-      if (!err) btceusdRate = parseFloat(JSON.parse(data).ticker.last).toFixed(3);
+    _request('https://api.coinmarketcap.com/v1/ticker/flappycoin/?convert=USD', function(err, data) {
+      if (!err) btceusdRate = parseFloat(JSON.parse(data).price_usd).toFixed(10);
 
       res.jsonp({
         status: 200,
