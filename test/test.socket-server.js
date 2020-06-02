@@ -6,7 +6,7 @@ var expect = chai.expect;
 var sinon = require('sinon');
 
 var socket = require('../app/controllers/socket');
-var bitcore = require('Litecore');
+var bitcore = require('Pandacore');
 var EventEmitter = require('events').EventEmitter;
 
 describe('socket server', function() {
@@ -20,7 +20,7 @@ describe('socket server', function() {
     socket.init(io);
 
     var mockSocket = {};
-    mockSocket.on = sinon.spy(); 
+    mockSocket.on = sinon.spy();
     io.sockets.emit('connection', mockSocket);
     mockSocket.on.calledWith('subscribe');
     mockSocket.on.calledWith('sync');

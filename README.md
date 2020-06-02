@@ -1,31 +1,31 @@
-# *Litesight API*
+# *Pandasight API*
 
-*Litesight API* is an open-source Litecoin blockchain REST
-and websocket API. Litesight API runs in NodeJS and uses LevelDB for storage. 
+*Pandasight API* is an open-source Pandacoin blockchain REST
+and websocket API. Pandasight API runs in NodeJS and uses LevelDB for storage.
 
 This is a backend-only service. If you're looking for the web frontend application,
-take a look at https://github.com/pembo210/Litesight.
+take a look at https://github.com/pembo210/Pandasight.
 
-*Litesight API* allows to develop Litecoin-related applications (such as wallets) that 
-require certain information from the blockchain that litecoind does not provide.
+*Pandasight API* allows to develop Pandacoin-related applications (such as wallets) that
+require certain information from the blockchain that Pandacoind does not provide.
 
-A blockchain explorer front-end has been developed on top of *Litesight API*. It can
-be downloaded at [Github Litesight Repository](https://github.com/pembo210/Litesight).
+A blockchain explorer front-end has been developed on top of *Pandasight API*. It can
+be downloaded at [Github Pandasight Repository](https://github.com/pembo210/Pandasight).
 
 
 ## Prerequisites
 
-* **litecoind** - Download and Install [litecoin](https://github.com/litecoin-project/litecoin)
+* **Pandacoind** - Download and Install [Pandacoin](https://github.com/Pandacoin-project/Pandacoin)
 
-*Litesight API* needs a *trusted* litecoind node to run. *Litesight API* will connect to the node
-through the RPC API, litecoin peer-to-peer protocol, and will even read its raw block .dat files for syncing.
+*Pandasight API* needs a *trusted* Pandacoind node to run. *Pandasight API* will connect to the node
+through the RPC API, Pandacoin peer-to-peer protocol, and will even read its raw block .dat files for syncing.
 
-Configure litecoind to listen to RPC calls and set `txindex` to true.
-The easiest way to do this is by copying `./etc/litecoind/litecoin.conf` to your
-litecoin data directory (usually `~/.litecoin` on Linux, `%appdata%\Litecoin\` on Windows,
-or `~/Library/Application Support/Litecoin` on Mac OS X).
+Configure Pandacoind to listen to RPC calls and set `txindex` to true.
+The easiest way to do this is by copying `./etc/Pandacoind/Pandacoin.conf` to your
+Pandacoin data directory (usually `~/.Pandacoin` on Linux, `%appdata%\Pandacoin\` on Windows,
+or `~/Library/Application Support/Pandacoin` on Mac OS X).
 
-litecoind must be running and must have finished downloading the blockchain **before** running *Litesight API*.litecoin
+Pandacoind must be running and must have finished downloading the blockchain **before** running *Pandasight API*.Pandacoin
 
 
 * **Node.js v0.10.x** - Download and Install [Node.js](http://www.nodejs.org/download/).
@@ -35,9 +35,9 @@ litecoind must be running and must have finished downloading the blockchain **be
 ## Quick Install
   Check the Prerequisites section above before installing.
 
-  To install Litesight API, clone the main repository:
+  To install Pandasight API, clone the main repository:
 
-    $ git clone https://github.com/pembo210/Litesight-api && cd Litesight-api
+    $ git clone https://github.com/pembo210/Pandasight-api && cd Pandasight-api
 
   Install dependencies:
 
@@ -45,7 +45,7 @@ litecoind must be running and must have finished downloading the blockchain **be
 
   Run the main application:
 
-    $ node Litesight.js
+    $ node Pandasight.js
 
   Then open a browser and go to:
 
@@ -61,16 +61,16 @@ litecoind must be running and must have finished downloading the blockchain **be
 All configuration is specified in the [config](config/) folder, particularly the [config.js](config/config.js) file. There you can specify your application name and database name. Certain configuration values are pulled from environment variables if they are defined:
 
 ```
-BITCOIND_HOST         # RPC litecoind host
-BITCOIND_PORT         # RPC litecoind Port
-BITCOIND_P2P_HOST     # P2P litecoind Host (will default to BITCOIND_HOST, if specified)
-BITCOIND_P2P_PORT     # P2P litecoind Port
+BITCOIND_HOST         # RPC Pandacoind host
+BITCOIND_PORT         # RPC Pandacoind Port
+BITCOIND_P2P_HOST     # P2P Pandacoind Host (will default to BITCOIND_HOST, if specified)
+BITCOIND_P2P_PORT     # P2P Pandacoind Port
 BITCOIND_USER         # RPC username
 BITCOIND_PASS         # RPC password
-BITCOIND_DATADIR      # litecoind datadir. 'testnet3' will be appended automatically if testnet is used. NEED to finish with '/'. e.g: `/vol/data/`
+BITCOIND_DATADIR      # Pandacoind datadir. 'testnet3' will be appended automatically if testnet is used. NEED to finish with '/'. e.g: `/vol/data/`
 INSIGHT_NETWORK [= 'livenet' | 'testnet']
-INSIGHT_PORT          # Litesight api port
-INSIGHT_DB            # Path where to store Litesight's internal DB. (defaults to $HOME/.litecoin-insight)
+INSIGHT_PORT          # Pandasight api port
+INSIGHT_DB            # Path where to store Pandasight's internal DB. (defaults to $HOME/.Pandacoin-insight)
 INSIGHT_SAFE_CONFIRMATIONS=6  # Nr. of confirmation needed to start caching transaction information   
 INSIGHT_IGNORE_CACHE  # True to ignore cache of spents in transaction, with more than INSIGHT_SAFE_CONFIRMATIONS confirmations. This is useful for tracking double spents for old transactions.
 ENABLE_MAILBOX # if "true" will enable mailbox plugin
@@ -83,33 +83,33 @@ ENABLE_HTTPS # if "true" it will server using SSL/HTTPS
 
 ```
 
-Make sure that litecoind is configured to [accept incoming connections using 'rpcallowip'](https://en.bitcoin.it/wiki/Running_Bitcoin).
+Make sure that Pandacoind is configured to [accept incoming connections using 'rpcallowip'](https://en.bitcoin.it/wiki/Running_Bitcoin).
 
 In case the network is changed (testnet to livenet or vice versa) levelDB database needs to be deleted. This can be performed running:
-```util/sync.js -D``` and waiting for *Litesight* to synchronize again.  Once the database is deleted, the sync.js process can be safely interrupted (CTRL+C) and continued from the synchronization process embedded in main app.
+```util/sync.js -D``` and waiting for *Pandasight* to synchronize again.  Once the database is deleted, the sync.js process can be safely interrupted (CTRL+C) and continued from the synchronization process embedded in main app.
 
 ## Synchronization
 
-The initial synchronization process scans the blockchain from the paired litecoind server to update addresses and balances. *Litesight-api* needs exactly one trusted litecoind node to run. This node must have finished downloading the blockchain before running *Litesight-api*.
+The initial synchronization process scans the blockchain from the paired Pandacoind server to update addresses and balances. *Pandasight-api* needs exactly one trusted Pandacoind node to run. This node must have finished downloading the blockchain before running *Pandasight-api*.
 
-While *Litesight* is synchronizing the website can be accessed (the sync process is embedded in the webserver), but there may be missing data or incorrect balances for addresses. The 'sync' status is shown at the `/api/sync` endpoint.
+While *Pandasight* is synchronizing the website can be accessed (the sync process is embedded in the webserver), but there may be missing data or incorrect balances for addresses. The 'sync' status is shown at the `/api/sync` endpoint.
 
-The blockchain can be read from litecoind's raw `.dat` files or RPC interface. 
+The blockchain can be read from Pandacoind's raw `.dat` files or RPC interface.
 Reading the information from the `.dat` files is much faster so it's the
 recommended (and default) alternative. `.dat` files are scanned in the default
-location for each platform (for example, `~/.litecoin` on Linux). In case a
+location for each platform (for example, `~/.Pandacoin` on Linux). In case a
 non-standard location is used, it needs to be defined (see the Configuration section).
 As of June 2014, using `.dat` files the sync process takes 9 hrs.
 for livenet and 30 mins. for testnet.
 
-While synchronizing the blockchain, *Litesight-api* listens for new blocks and
-transactions relayed by the litecoind node. Those are also stored on *Litesight-api*'s database.
-In case *Litesight-api* is shutdown for a period of time, restarting it will trigger
+While synchronizing the blockchain, *Pandasight-api* listens for new blocks and
+transactions relayed by the Pandacoind node. Those are also stored on *Pandasight-api*'s database.
+In case *Pandasight-api* is shutdown for a period of time, restarting it will trigger
 a partial (historic) synchronization of the blockchain. Depending on the size of
 that synchronization task, a reverse RPC or forward `.dat` syncing strategy will be used.
 
-If litecoind is shutdown, *Litesight-api* needs to be stopped and restarted
-once litecoind is restarted.
+If Pandacoind is shutdown, *Pandasight-api* needs to be stopped and restarted
+once Pandacoind is restarted.
 
 ### Syncing old blockchain data manually
 
@@ -120,24 +120,24 @@ once litecoind is restarted.
   Check util/sync.js --help for options, particulary -D to erase the current DB.
 
   *NOTE*: there is no need to run this manually since the historic synchronization
-  is built in into the web application. Running *Litesight-api* normally will trigger
+  is built in into the web application. Running *Pandasight-api* normally will trigger
   the historic sync automatically.
 
 
 ### DB storage requirement
 
-To store the blockchain and address related information, *Litesight-api* uses LevelDB.
+To store the blockchain and address related information, *Pandasight-api* uses LevelDB.
 Two DBs are created: txs and blocks. By default these are stored on
 
-  ``~/.litecoin-insight/``
+  ``~/.Pandacoin-insight/``
 
-Please note that some older versions of Litesight-API store that on `<Litesight's root>/db`.
+Please note that some older versions of Pandasight-API store that on `<Pandasight's root>/db`.
 
 This can be changed at config/config.js. As of June 2014, storing the livenet blockchain takes ~35GB of disk space (2GB for the testnet).
 
 ## Development
 
-To run Litesight locally for development with grunt:
+To run Pandasight locally for development with grunt:
 
 ```$ NODE_ENV=development grunt```
 
@@ -146,25 +146,25 @@ To run the tests
 ```$ grunt test```
 
 
-Contributions and suggestions are welcome at [Litesight-api github repository](https://github.com/pembo210/Litesight-api).
+Contributions and suggestions are welcome at [Pandasight-api github repository](https://github.com/pembo210/Pandasight-api).
 
 ## Caching schema
 
 Since v0.2 a new cache schema has been introduced. Only information from transactions with
-INSIGHT_SAFE_CONFIRMATIONS settings will be cached (by default SAFE_CONFIRMATIONS=6). There 
+INSIGHT_SAFE_CONFIRMATIONS settings will be cached (by default SAFE_CONFIRMATIONS=6). There
 are 3 different caches:
- * Number of confirmations 
+ * Number of confirmations
  * Transaction output spent/unspent status
  * scriptPubKey for unspent transactions
 
 Cache data is only populated on request, i.e., only after accessing the required data for
-the first time, the information is cached, there is not pre-caching procedure.  To ignore 
+the first time, the information is cached, there is not pre-caching procedure.  To ignore
 cache by default, use INSIGHT_IGNORE_CACHE. Also, address related calls support `?noCache=1`
 to ignore the cache in a particular API request.
 
 ## API
 
-By default, Litesight provides a REST API at `/api`, but this prefix is configurable from the var `apiPrefix` in the `config.js` file.
+By default, Pandasight provides a REST API at `/api`, but this prefix is configurable from the var `apiPrefix` in the `config.js` file.
 
 The end-points are:
 
@@ -288,7 +288,7 @@ POST response:
   /api/peer
 ```
 
-### Status of the litecoin network
+### Status of the Pandacoin network
 ```
   /api/status?q=xxx
 ```
@@ -304,7 +304,7 @@ Where "xxx" can be:
 ## Web Socket API
 The web socket API is served using [socket.io](http://socket.io).
 
-The following are the events published by Litesight:
+The following are the events published by Pandasight:
 
 'tx': new transaction received from network. This event is published in the 'inv' room. Data will be a app/models/Transaction object.
 Sample output:
@@ -327,7 +327,7 @@ Sample output:
 }
 ```
 
-'<litecoinAddress>': new transaction concerning <litecoinAddress> received from network. This event is published in the '<litecoinAddress>' room.
+'<PandacoinAddress>': new transaction concerning <PandacoinAddress> received from network. This event is published in the '<PandacoinAddress>' room.
 
 'status': every 1% increment on the sync task, this event will be triggered. This event is published in the 'sync' room.
 
@@ -347,18 +347,18 @@ Sample output:
 
 ### Example Usage
 
-The following html page connects to the socket.io Litesight API and listens for new transactions.
+The following html page connects to the socket.io Pandasight API and listens for new transactions.
 
 html
 ```
 <html>
 <body>
-  <script src="http://<Litesight-server>:<port>/socket.io/socket.io.js"></script>
+  <script src="http://<Pandasight-server>:<port>/socket.io/socket.io.js"></script>
   <script>
     eventToListenTo = 'tx'
     room = 'inv'
 
-    var socket = io("http://<Litesight-server>:<port>/");
+    var socket = io("http://<Pandasight-server>:<port>/");
     socket.on('connect', function() {
       // Join the room.
       socket.emit('subscribe', room);

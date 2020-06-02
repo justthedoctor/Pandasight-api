@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var RpcClient = require('../node_modules/Litecore/RpcClient').class();
+var RpcClient = require('../node_modules/Pandacore/RpcClient').class();
 
 var config = require('../config/config');
 
@@ -16,5 +16,3 @@ var block = rpc.getInfo(function(err, block) {
   console.log("Block info:");
   console.log(block);
 });
-
-

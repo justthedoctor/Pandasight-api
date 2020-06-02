@@ -2,7 +2,7 @@
 
 var imports            = require('soop').imports();
 var async              = require('async');
-var bitcore            = require('Litecore');
+var bitcore            = require('Pandacore');
 var BitcoreAddress     = bitcore.Address;
 var BitcoreTransaction = bitcore.Transaction;
 var BitcoreUtil        = bitcore.util;
@@ -31,7 +31,7 @@ function Address(addrStr) {
   var a = new BitcoreAddress(addrStr);
   a.validate();
   this.addrStr        = addrStr;
-  
+
   Object.defineProperty(this, 'totalSent', {
     get: function() {
       return parseFloat(this.totalSentSat) / parseFloat(BitcoreUtil.COIN);
@@ -143,7 +143,7 @@ Address.prototype._addTxItem = function(txItem, txList) {
 // opts are
 // .onlyUnspent
 // .txLimit     (=0 -> no txs, => -1 no limit)
-// 
+//
 Address.prototype.update = function(next, opts) {
   var self = this;
   if (!self.addrStr) return next();
@@ -190,7 +190,7 @@ Address.prototype.update = function(next, opts) {
           txOut.forEach(function(txItem){
             self._addTxItem(txItem, txList);
           });
-          if (txList) 
+          if (txList)
             self.transactions = txList;
 
           return next();
@@ -201,4 +201,3 @@ Address.prototype.update = function(next, opts) {
 };
 
 module.exports = require('soop')(Address);
-

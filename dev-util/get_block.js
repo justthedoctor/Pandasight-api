@@ -5,7 +5,7 @@ var util = require('util');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var RpcClient = require('../node_modules/Litecore/RpcClient');
+var RpcClient = require('../node_modules/Pandacore/RpcClient');
 
 var config = require('../config/config');
 
@@ -26,6 +26,3 @@ rpc.getBlock( hash,  function(err, ret) {
   console.log('Ret:');
   console.log(util.inspect(ret, { depth: 10} ));
 });
-
-
-
